@@ -1,0 +1,19 @@
+{
+  "name": "willa",
+  "version": "0.1.0",
+  "description": "Willa is streaming micro-service framework. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kafaka",
+    "stream",
+    "microservice"
+  ],
+  "author": "Sourav Ray <me@raysourav.com>",
+  "license": "MIT",
+  "dependencies": {
+    "highland": "^2.13.0"
+  }
+}
