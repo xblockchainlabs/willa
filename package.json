@@ -4,7 +4,8 @@
   "description": "Willa is streaming micro-service framework. ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "sample": "node ./sample/basic-app.js",
+    "test": "nyc mocha"
   },
   "keywords": [
     "kafaka",
@@ -14,6 +15,14 @@
   "author": "Sourav Ray <me@raysourav.com>",
   "license": "MIT",
   "dependencies": {
-    "highland": "^2.13.0"
+    "case": "^1.5.5",
+    "kafka-node": "^2.6.1",
+    "lodash": "^4.17.10",
+    "steeltoe": "^1.0.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2"
   }
 }
