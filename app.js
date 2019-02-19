@@ -65,7 +65,7 @@ let app = null;
 
 module.exports = (name, options) => {
   if(app== null){
-    app = new App(options);
+    app = new App(name, options);
   }
   return app
 }

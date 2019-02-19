@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "case": "^1.5.5",
-    "kafka-node": "^2.6.1",
+    "kafka-node": "^4.0.1",
     "lodash": "^4.17.10",
     "steeltoe": "^1.0.1"
   },
