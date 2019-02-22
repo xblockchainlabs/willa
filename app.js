@@ -59,6 +59,15 @@ class App {
       throw Error(`Pipeline name conflict at ${name}`);
     }
   }
+  
+  _restart(name) {
+    if (name !== undefined &&
+      this.pipelines.has(name)) {
+      const pipeline = this.pipelines.get(name);
+      pipeline._shutdown();
+      pipeline._build(this);
+    } 
+  }
 }
 
 let app = null;

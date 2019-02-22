@@ -37,6 +37,6 @@ const app = App('test', {
 
 app.add(pipeline);
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 1; i++) {
   app.writeStream('process', { num: i });
 }
