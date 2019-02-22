@@ -18,7 +18,6 @@ pipeline.source(Stream.consumer({ name: 'process' }))
 
 pipeline.sourceCommitable(Kafka.consumer({ topic: 'log' }))
   .flow((data, err, next) => {
-    err = new Error('hello');
     next(data, err);
   })
   .sink((data, err, next) => {
