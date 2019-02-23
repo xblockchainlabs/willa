@@ -5,6 +5,7 @@ pipeline.source(Stream.consumer({ name: 'process' }))
   .flow((data, err, next) => {
     let num = parseInt(data.num);
     Object.assign(data, { num: num + 1 });
+    // throw new Error('Kaka punjabi');
     next(data, err);
   })
   .flow((data, err, next) => {
@@ -16,6 +17,9 @@ pipeline.source(Stream.consumer({ name: 'process' }))
 
 
 pipeline.sourceCommitable(Kafka.consumer({ topic: 'log' }))
+  .flow((data, err, next) => {
+    next(data, err);
+  })
   .sink((data, err, next) => {
     console.log(JSON.stringify(data));
     next(data, err);
@@ -23,15 +27,15 @@ pipeline.sourceCommitable(Kafka.consumer({ topic: 'log' }))
 
 const app = App('test', {
   kafka: {
-    kafkaHost: 'localhost:9092',
+    kafkaHost: '3.92.2.7:9092',
     protocol: ['roundrobin'],
     asyncPush: false,
-    fromOffset: 'latest'
+    fromOffset: 'earliest'
   }
 });
 
 app.add(pipeline);
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 1; i++) {
   app.writeStream('process', { num: i });
 }

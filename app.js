@@ -1,15 +1,15 @@
 const { KafkaClient } = require('kafka-node'),
   Case = require('case'),
   _ = require('lodash'),
-  $ =  require('steeltoe');
+  $ = require('steeltoe');
 
 class App {
   constructor(name, options) {
     this.pipelines = new Map();
-    this._setKafka(name,$(options)('kafka')());
+    this._setKafka(name, $(options)('kafka')());
   }
 
-  _setKafka(name, kafkaOptions){
+  _setKafka(name, kafkaOptions) {
     let kafkaConf = Object.assign({}, this._kafkaDefalutConf(), kafkaOptions);
     this.kafka = {
       client: this._kafkaClient(kafkaConf),
@@ -23,48 +23,57 @@ class App {
       sessionTimeout: 25000,
       protocol: ['roundrobin'],
       asyncPush: false,
-      fromOffset: 'latest'
+      fromOffset: 'earliest'
     }
   }
 
   _kafkaClient(conf) {
-    return new KafkaClient({kafkaHost: conf.kafkaHost });
+    return new KafkaClient({ kafkaHost: conf.kafkaHost });
   }
 
   _kafkaCGOption(name, conf) {
-    const groupID = Case.snake('willa_'+name);
+    const groupID = Case.snake('willa_' + name);
     return Object.assign({}, conf, { groupId: groupID });
   }
 
   add(pipelines) {
-    if( $(pipelines)('_map')() !== undefined
-        && _.isFunction(pipelines._map)){
-      pipelines._map().forEach((pipe) => 
+    if ($(pipelines)('_map')() !== undefined
+      && _.isFunction(pipelines._map)) {
+      pipelines._map().forEach((pipe) =>
         this._setPipeline(pipe.name, pipe.pipeline));
       pipelines._build(this);
     }
   }
 
-  writeStream(name,data) {
+  writeStream(name, data) {
     const _name = Case.snake(name);
     const pipeline = this.pipelines.get(_name);
     pipeline._write(data);
   }
 
   _setPipeline(name, pipeline) {
-    if( name!== undefined && 
+    if (name !== undefined &&
       !this.pipelines.has(name)) {
       this.pipelines.set(name, pipeline);
     } else {
       throw Error(`Pipeline name conflict at ${name}`);
     }
   }
+  
+  _restart(name) {
+    if (name !== undefined &&
+      this.pipelines.has(name)) {
+      const pipeline = this.pipelines.get(name);
+      pipeline._shutdown();
+      pipeline._build(this);
+    } 
+  }
 }
 
 let app = null;
 
 module.exports = (name, options) => {
-  if(app== null){
+  if (app == null) {
     app = new App(name, options);
   }
   return app
