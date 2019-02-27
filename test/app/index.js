@@ -1,4 +1,4 @@
-const { App, Pipelines, Kafka, Stream } = require('../');
+const { App, Pipelines, Kafka, Stream } = require('../../index');
 const pipeline = Pipelines();
 
 pipeline.source(Stream.consumer({ name: 'process' }))
@@ -15,9 +15,9 @@ pipeline.source(Stream.consumer({ name: 'process' }))
   })
   .sink(Kafka.producer({ topic: 'log' }));
 
-
-pipeline.sourceCommitable(Kafka.consumer({ topic: 'log' }))
+pipeline.sourceCommitable(Kafka.consumer({ topic: 'log', errorStrategy: 'reset' }))
   .flow((data, err, next) => {
+    err = new Error('Kaka punjabi');
     next(data, err);
   })
   .sink((data, err, next) => {
@@ -27,7 +27,7 @@ pipeline.sourceCommitable(Kafka.consumer({ topic: 'log' }))
 
 const app = App('test', {
   kafka: {
-    kafkaHost: 'kafka1:9092',
+    kafkaHost: 'kafka:9092',
     protocol: ['roundrobin'],
     asyncPush: false,
     fromOffset: 'earliest'
