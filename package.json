@@ -1,8 +1,14 @@
 {
-  "name": "willa",
+  "name": "@xblockchainlabs/willa",
   "version": "0.1.0",
   "description": "Willa is streaming micro-service framework. ",
   "main": "index.js",
+  "engines": {
+    "node": ">= 10"
+  },
+   "bin": {
+    "willa": "./app.js"
+  },
   "scripts": {
     "sample": "node ./sample/basic-app.js",
     "test": "nyc mocha"
