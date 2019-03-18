@@ -1,6 +1,6 @@
 const { App, Pipelines, Kafka, Stream, Flowfunc } = require('../');
 const pipeline = Pipelines();
-
+const country = ['india','china'];
 // pipeline.source(Stream.consumer({ name: 'process' }))
 //   .flow((data, err, next) => {
 //     let num = parseInt(data.num);
@@ -25,13 +25,13 @@ const pipeline = Pipelines();
   pipeline.source(Stream.consumer({ name: 'process' }))
   .flow((data, err, next) => {
     let num = parseInt(data.num);
-    Object.assign(data, { num: num + 1 });
+    Object.assign(data, { num: num + 1 , country : country[Math.floor(Math.random() * country.length)]});
     // throw new Error('Kaka punjabi');
     next(data, err);
   })
-  .flow(Flowfunc.batch({ number: 5, timeout: 30000 }, (argData={},data) => {
-    let num = parseInt(data.data.num);
-    Object.assign(argData, { num: num + 1 });
+  .flow(Flowfunc.batch({ number: 5, timeout: 30000, groupBy: ["country"] }, (argData={},data) => {
+    let num = parseInt(data.num);
+    Object.assign(argData, { num: num + argData.num});
     return argData;
   }))
   .sink((data, err, next) => {
