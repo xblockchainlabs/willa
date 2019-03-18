@@ -1,30 +1,52 @@
 const { App, Pipelines, Kafka, Stream, Flowfunc } = require('../');
 const pipeline = Pipelines();
+const country = ['india','china'];
+// pipeline.source(Stream.consumer({ name: 'process' }))
+//   .flow((data, err, next) => {
+//     let num = parseInt(data.num);
+//     Object.assign(data, { num: num + 1 });
+//     console.log("hi");
+//     // throw new Error('Kaka punjabi');
+//     next(data, err);
+//   })
+//   .flow(Flowfunc.batch({ number: 5, timeout: 30000 }, (data, err, next) => {
+//     console.log("...",data);
+//     let num = parseInt(data.num);
+//     Object.assign(data, { num: num - 1 });
+//     return data;
+//   }))
+//   .flow((data, err, next) => {
+//     console.log('LKLKL',data);
+//     // throw new Error('Kaka punjabi');
+//     next(data, err);
+//   })
+//   .sink(Kafka.producer({ topic: 'log' }));
 
-pipeline.source(Stream.consumer({ name: 'process' }))
+  pipeline.source(Stream.consumer({ name: 'process' }))
   .flow((data, err, next) => {
     let num = parseInt(data.num);
-    Object.assign(data, { num: num + 1 });
-    console.log("hi");
+    Object.assign(data, { num: num + 1 , country : country[Math.floor(Math.random() * country.length)]});
     // throw new Error('Kaka punjabi');
     next(data, err);
   })
-  .flow(Flowfunc.batch({ number: 5, timeout: 30000 }, (data, err, next) => {
+  .flow(Flowfunc.batch({ number: 5, timeout: 30000, groupBy: ["country"] }, (argData={},data) => {
     let num = parseInt(data.num);
-    Object.assign(data, { num: num - 1 });
-    return data;
+    Object.assign(argData, { num: num + argData.num});
+    return argData;
   }))
-  .sink(Kafka.producer({ topic: 'log' }));
-
-
-pipeline.sourceCommitable(Kafka.consumer({ topic: 'log' }))
-  .flow((data, err, next) => {
-    next(data, err);
-  })
   .sink((data, err, next) => {
     console.log(JSON.stringify(data));
     next(data, err);
-  })
+  });
+
+// pipeline.sourceCommitable(Kafka.consumer({ topic: 'log' }))
+//   .flow((data, err, next) => {
+//     next(data, err);
+//   })
+//   .sink((data, err, next) => {
+//     console.log(JSON.stringify(data));
+//     next(data, err);
+//   })
 
 const app = App('test', {
   kafka: {
