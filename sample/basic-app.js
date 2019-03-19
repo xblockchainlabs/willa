@@ -1,6 +1,7 @@
-const { App, Pipelines, Stream, Flowfunc } = require('../');
+const { App, Pipelines, Stream, Batch } = require('../');
 const pipeline = Pipelines();
 const country = ['india','china'];
+const countries = ['japan','barmuda']
 // pipeline.source(Stream.consumer({ name: 'process' }))
 //   .flow((data, err, next) => {
 //     let num = parseInt(data.num);
@@ -25,19 +26,38 @@ const country = ['india','china'];
   pipeline.source(Stream.consumer({ name: 'process' }))
   .flow((data, err, next) => {
     let num = parseInt(data.num);
-    Object.assign(data, { num: num + 1 , from : country[Math.floor(Math.random() * country.length)]});
-    Object.assign(data, { to : country[Math.floor(Math.random() * country.length)]});
+    Object.assign(data, { num: num + 1 , from : countries[Math.floor(Math.random() * country.length)]});
+    Object.assign(data, { to : countries[Math.floor(Math.random() * country.length)]});
     // throw new Error('Kaka punjabi');
     next(data, err);
   })
-  .flow(Flowfunc.batch({ number: 5, timeout: 30000, groupBy: "from", attributes: ["num", "to"]}, 
+  .flow(Batch.reduce({ number: 5, timeout: 30000, groupBy: "from", attributes: ["num", "to"]}, 
     (aggtr ,data) => {
       let num = parseInt(data.num);
       aggtr.number += num;
       return aggtr;
   }, { number:0}))
   .sink((data, err, next) => {
-    console.log(JSON.stringify(data, null, 3));
+    console.log("\n\n Reduced: \n", JSON.stringify(data, null, 3));
+    next(data, err);
+  });
+
+
+  pipeline.source(Stream.consumer({ name: 'process-mapper' }))
+  .flow((data, err, next) => {
+    let num = parseInt(data.num);
+    Object.assign(data, { num: num + 1 , from : country[Math.floor(Math.random() * country.length)]});
+    Object.assign(data, { to : country[Math.floor(Math.random() * country.length)]});
+    // throw new Error('Kaka punjabi');
+    next(data, err);
+  })
+  .flow(Batch.map({ number: 5, timeout: 30000, groupBy: ["to"], attributes: ["num", "from"]}, 
+     (data) => {
+      return { "origination": data.from, "volume": data.num};
+    })
+  )
+  .sink((data, err, next) => {
+    console.log("\n\n Mapped: \n",JSON.stringify(data, null, 3));
     next(data, err);
   });
 
@@ -63,4 +83,5 @@ app.add(pipeline);
 
 for (let i = 0; i < 7; i++) {
   app.writeStream('process', { num: i });
+  app.writeStream('process-mapper', { num: i });
 }
