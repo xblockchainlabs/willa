@@ -1,4 +1,4 @@
-const { App, Pipelines, Kafka, Stream, Flowfunc } = require('../');
+const { App, Pipelines, Stream, Flowfunc } = require('../');
 const pipeline = Pipelines();
 const country = ['india','china'];
 // pipeline.source(Stream.consumer({ name: 'process' }))
@@ -25,17 +25,19 @@ const country = ['india','china'];
   pipeline.source(Stream.consumer({ name: 'process' }))
   .flow((data, err, next) => {
     let num = parseInt(data.num);
-    Object.assign(data, { num: num + 1 , country : country[Math.floor(Math.random() * country.length)]});
+    Object.assign(data, { num: num + 1 , from : country[Math.floor(Math.random() * country.length)]});
+    Object.assign(data, { to : country[Math.floor(Math.random() * country.length)]});
     // throw new Error('Kaka punjabi');
     next(data, err);
   })
-  .flow(Flowfunc.batch({ number: 5, timeout: 30000, groupBy: ["country"] }, (argData={},data) => {
-    let num = parseInt(data.num);
-    Object.assign(argData, { num: num + argData.num});
-    return argData;
-  }))
+  .flow(Flowfunc.batch({ number: 5, timeout: 30000, groupBy: "from", attributes: ["num", "to"]}, 
+    (aggtr ,data) => {
+      let num = parseInt(data.num);
+      aggtr.number += num;
+      return aggtr;
+  }, { number:0}))
   .sink((data, err, next) => {
-    console.log(JSON.stringify(data));
+    console.log(JSON.stringify(data, null, 3));
     next(data, err);
   });
 
@@ -49,12 +51,12 @@ const country = ['india','china'];
 //   })
 
 const app = App('test', {
-  kafka: {
-    kafkaHost: 'ec2-3-88-35-67.compute-1.amazonaws.com:9092',
-    protocol: ['roundrobin'],
-    asyncPush: false,
-    fromOffset: 'earliest'
-  }
+  // kafka: {
+  //   kafkaHost: 'ec2-3-88-35-67.compute-1.amazonaws.com:9092',
+  //   protocol: ['roundrobin'],
+  //   asyncPush: false,
+  //   fromOffset: 'earliest'
+  // }
 });
 
 app.add(pipeline);
