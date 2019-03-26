@@ -6,22 +6,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Vaibhav Soni (vssonivaibhav6@gmail.com)">
-        <link rel="canonical" href="https://github.com/xblockchainlabs/willa/">
-        <link rel="shortcut icon" href="img/favicon.ico">
+        <link rel="canonical" href="https://github.com/xblockchainlabs/willa/examples/stream/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>v1 - wi|la</title>
-        <link href="css/bootstrap-custom.min.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/base.css" rel="stylesheet">
+        <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-        <link href="css/extra.css" rel="stylesheet">
+        <link href="../../css/extra.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-        <script src="js/jquery-1.10.2.min.js" defer></script>
-        <script src="js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap-3.0.3.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/node.js.min.js"></script>
@@ -42,7 +42,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href=".">wi|la</a>
+                    <a class="navbar-brand" href="../..">wi|la</a>
                 </div>
 
                 <!-- Expanded navigation -->
@@ -50,23 +50,23 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li >
-                                <a href=".">Home</a>
+                                <a href="../..">Home</a>
                             </li>
-                            <li class="dropdown active">
+                            <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">version <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li class="active">
-    <a href=".">v1</a>
+<li >
+    <a href="../..">v1</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
-<li >
-    <a href="examples/stream/">v1</a>
+<li class="active">
+    <a href="./">v1</a>
 </li>
                                 </ul>
                             </li>
@@ -79,12 +79,12 @@
                             </a>
                         </li>
                             <li >
-                                <a rel="next" href=".">
+                                <a rel="next" href="../..">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
-                            <li >
-                                <a rel="prev" href="examples/stream/">
+                            <li class="disabled">
+                                <a rel="prev" >
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -99,119 +99,100 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#overview">Overview</a></li>
-        <li class="main "><a href="#getting-started">Getting Started</a></li>
-        <li class="main "><a href="#pipeline">Pipeline</a></li>
-        <li class="main "><a href="#source">Source</a></li>
-            <li><a href="#node-stream">Node Stream</a></li>
-            <li><a href="#kafka-stream">Kafka Stream</a></li>
-            <li><a href="#kafka-stream-commitable">Kafka Stream (commitable)</a></li>
-            <li><a href="#options">options</a></li>
-        <li class="main "><a href="#flow">Flow</a></li>
-            <li><a href="#lamda-functions">Lamda functions</a></li>
-            <li><a href="#batch">Batch</a></li>
-        <li class="main "><a href="#sink">Sink</a></li>
-        <li class="main "><a href="#starting-the-app">Starting the App</a></li>
+        <li class="main active"><a href="#node-stream">Node Stream</a></li>
+        <li class="main "><a href="#node-stream-batch-reduce">Node Stream + Batch - Reduce</a></li>
+        <li class="main "><a href="#node-stream-batch-map">Node Stream + Batch - Map</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<p><img alt="wi|la" class="imgs" src="img/willa.png" /></p>
-<p>A streaming microservice framework for Node.js</p>
-<hr />
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link"></a></h2>
-<p>A streaming microservice framework for Node.js with which you can perform vairous operations on real-time data like transformation,aggregation,validation etc.</p>
-<hr />
-<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link"></a></h2>
-<p>A typical wi|las pipeline must consist of a source and a sink.</p>
-<p>A typical source &amp; sink represents the input stream and output sink repectively. Currently Kafka and node streams are supported.</p>
-<p>Data transformation takes place in pipeline flows , their is no restriction in number of flows which can be added to a pipeline however their can be only on Source and one sink.</p>
-<h2 id="pipeline">Pipeline<a class="headerlink" href="#pipeline" title="Permanent link"></a></h2>
-<p>A wi|las pipeline can be crated by following code snipet.</p>
-<pre><code>const { Pipeline } = require('@xblockchainlabs/willa');
-const pipeline = new Pipeline();
-</code></pre>
-
-<h2 id="source">Source<a class="headerlink" href="#source" title="Permanent link"></a></h2>
-<p>As disccussed above source represents the input to the pipeline i.e the source is the starting point of a pipeline , currently wi|la support 2 types of source <code>source</code> and <code>sourceCommitable</code>.</p>
-<p><code>source</code> can be either be a Node Stream or a Kafka Stream whereas <code>sourceCommitable</code> currently supports only kafka streams.</p>
-<p>Inorder to attach a source/sourceCommitable to the pipeline use follow code snipet.</p>
 <h3 id="node-stream">Node Stream<a class="headerlink" href="#node-stream" title="Permanent link"></a></h3>
-<pre><code>pipeline.source(Stream.consumer(options));
-</code></pre>
+<pre><code>const { App, Pipelines, Stream, Batch } = require('../');
+const pipeline = Pipelines();
 
-<h3 id="kafka-stream">Kafka Stream<a class="headerlink" href="#kafka-stream" title="Permanent link"></a></h3>
-<pre><code>pipeline.source(Kafka.consumer(options));
-</code></pre>
+pipeline.source(Stream.consumer({ name: 'process' }))
+.flow((data, err, next) =&gt; {
+  let num = parseInt(data.num);
+  Object.assign(data, { num: num + 1 , from : country[Math.floor(Math.random() * country.length)]});
+  Object.assign(data, { to : country[Math.floor(Math.random() * country.length)]});
+  next(data, err);
+})
+.sink((data, err, next) =&gt; {
+  console.log(JSON.stringify(data, null, 3));
+  next(data, err);
+});
 
-<h3 id="kafka-stream-commitable">Kafka Stream (commitable)<a class="headerlink" href="#kafka-stream-commitable" title="Permanent link"></a></h3>
-<pre><code>pipeline.sourceCommitable(Kafka.consumer(options));
-</code></pre>
+const app = App('test');
 
-<h3 id="options">options<a class="headerlink" href="#options" title="Permanent link"></a></h3>
-<pre><code>{
-  name: String,
-  errorStrategy: String ['reset' , 'uncommit' , 'report' ]
+app.add(pipeline);
+
+for (let i = 0; i &lt; 7; i++) {
+  app.writeStream('process', { num: i });
 }
 </code></pre>
 
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><code>name is mandatory to be passed , whereas default errorStrategy is set to `reset`</code></p>
-</div>
-<h2 id="flow">Flow<a class="headerlink" href="#flow" title="Permanent link"></a></h2>
-<p>Flow represents or perform logical opreation for the transformation of the incomming data. Thier is no limitation on the number of flows which can be chainned in a pipeline however flow cannot be either first of last element of a pipeline.</p>
-<p>A typical wi|la flow accpect 2 types of operation i.e lamda function and the Batch processes.</p>
-<h3 id="lamda-functions">Lamda functions<a class="headerlink" href="#lamda-functions" title="Permanent link"></a></h3>
-<pre><code>.flow((data, err, next) =&gt; {
-    // your custom logic
+<h3 id="node-stream-batch-reduce">Node Stream + Batch - Reduce<a class="headerlink" href="#node-stream-batch-reduce" title="Permanent link"></a></h3>
+<pre><code>const { App, Pipelines, Stream, Batch } = require('../');
+const pipeline = Pipelines();
+
+pipeline.source(Stream.consumer({ name: 'process' }))
+  .flow((data, err, next) =&gt; {
+    let num = parseInt(data.num);
+    Object.assign(data, { num: num + 1 , from : countries[Math.floor(Math.random() * country.length)]});
+    Object.assign(data, { to : countries[Math.floor(Math.random() * country.length)]});
+    // throw new Error('Kaka punjabi');
+    //err = new Error('Kaka punjabi');
     next(data, err);
   })
-</code></pre>
-
-<h3 id="batch">Batch<a class="headerlink" href="#batch" title="Permanent link"></a></h3>
-<p>Batch is used in the cases where you want pipeline to wait for certain time / number of data inputs and then perform your logical operation.</p>
-<p>wi|la provides two types of batch .</p>
-<p>Reduce</p>
-<pre><code>.flow(Batch.reduce(options,reducerfunc,initailvalue)
-</code></pre>
-
-<p>Map</p>
-<pre><code>.flow(Batch.reduce(options,mapfunc)
-</code></pre>
-
-<p>options</p>
-<pre><code>{ 
-  number: Number, 
-  timeout: Number (time in ms),
-  groupBy: String || [String], 
-  attributes: String || [String]
-}
-</code></pre>
-
-<h2 id="sink">Sink<a class="headerlink" href="#sink" title="Permanent link"></a></h2>
-<p>As disccussed above sink represents the output/result to the pipeline i.e the sink is the end point of a pipeline.</p>
-<p><code>source</code> can be either be a Node Stream or a Kafka Stream.</p>
-<p>Inorder to attach a sink to the pipeline use follow code snipet.</p>
-<pre><code>.sink((data, err, next) =&gt; {
+  .flow(Batch.reduce({ number: 5, timeout: 30000, groupBy: &quot;from&quot;, attributes: [&quot;num&quot;, &quot;to&quot;]}, 
+    (aggtr ,data) =&gt; {
+      let num = parseInt(data.num);
+      aggtr.number += num;
+      return aggtr;
+  }, { number:0}))
+  .sink((data, err, next) =&gt; {
+    console.log(JSON.stringify(data, null, 3));
     next(data, err);
   });
-</code></pre>
 
-<p>Kafka</p>
-<pre><code>.sink(Kafka.producer(options));
-</code></pre>
+const app = App('test');
 
-<h2 id="starting-the-app">Starting the App<a class="headerlink" href="#starting-the-app" title="Permanent link"></a></h2>
-<p>once we have created your pipeline you need to add it to the <code>app</code>. to do that use following code snipet.</p>
-<pre><code>const { App , Pipeline } = require('@xblockchainlabs/willa');
-const app = App(name ,options);
 app.add(pipeline);
+
+for (let i = 0; i &lt; 7; i++) {
+  app.writeStream('process', { num: i });
+}
+
 </code></pre>
 
-<p>options</p>
-<pre><code>{
-  kafka: kafkaconfig
+<h3 id="node-stream-batch-map">Node Stream + Batch - Map<a class="headerlink" href="#node-stream-batch-map" title="Permanent link"></a></h3>
+<pre><code>const { App, Pipelines, Stream, Batch } = require('../');
+const pipeline = Pipelines();
+
+pipeline.source(Stream.consumer({ name: 'process' }))
+  .flow((data, err, next) =&gt; {
+    let num = parseInt(data.num);
+    Object.assign(data, { num: num + 1 , from : countries[Math.floor(Math.random() * country.length)]});
+    Object.assign(data, { to : countries[Math.floor(Math.random() * country.length)]});
+    next(data, err);
+  })
+  .flow(Flowfunc.batch({ number: 5, timeout: 30000 }, (data, err, next) =&gt; {
+     console.log(&quot;...&quot;,data);
+     let num = parseInt(data.num);
+     Object.assign(data, { num: num - 1 });
+     return data;
+  }))
+  .sink((data, err, next) =&gt; {
+    // console.log(JSON.stringify(data, null, 3));
+    next(data, err);
+  });
+
+const app = App('test');
+
+app.add(pipeline);
+
+for (let i = 0; i &lt; 7; i++) {
+  app.writeStream('process', { num: i });
 }
 </code></pre></div>
         </div>
@@ -221,11 +202,11 @@ app.add(pipeline);
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
         <script>
-            var base_url = ".",
+            var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="js/base.js" defer></script>
-        <script src="search/main.js" defer></script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
     <div class="modal-dialog">
