@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Documentation for wi|la">
+        <meta name="author" content="Vaibhav Soni (vssonivaibhav6@gmail.com)">
+        <link rel="canonical" href="https://github.com/xblockchainlabs/willa/">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>wi|la</title>
+        <link href="css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link href="css/extra.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/node.js.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body class="homepage">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href=".">wi|la</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href=".">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="examples/stream.md">Stream</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">About <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="about/release-notes.md">Release Notes</a>
+</li>
+                                    
+<li >
+    <a href="about/contributing.md">Contributing</a>
+</li>
+                                    
+<li >
+    <a href="about/license.md">License</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li>
+                                <a href="https://github.com/xblockchainlabs/willa"><i class="fa fa-github"></i> GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#wila">wi|la</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#pipeline">Pipeline</a></li>
+            <li><a href="#source">Source</a></li>
+            <li><a href="#flow">Flow</a></li>
+            <li><a href="#sink">Sink</a></li>
+            <li><a href="#starting-the-app">Starting the App</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="wila">wi|la<a class="headerlink" href="#wila" title="Permanent link"></a></h1>
+<p>A streaming microservice framework for Node.js</p>
+<hr />
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link"></a></h2>
+<p>A streaming microservice framework for Node.js with which you can perform vairous operations on real-time data like transformation,aggregation,validation etc.</p>
+<hr />
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link"></a></h2>
+<h3 id="install-with-node-package-manager-npm">Install with Node Package Manager (NPM)<a class="headerlink" href="#install-with-node-package-manager-npm" title="Permanent link"></a></h3>
+<p><code>npm install @xblockchainlabs/willa</code></p>
+<hr />
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link"></a></h2>
+<p>A typical wi|las pipeline must consist of a source and a sink.</p>
+<p>A typical source &amp; sink represents the input stream and output sink repectively. Currently Kafka and node streams are supported.</p>
+<p>Data transformation takes place in pipeline flows , their is no restriction in number of flows which can be added to a pipeline however their can be only on Source and one sink.</p>
+<h2 id="pipeline">Pipeline<a class="headerlink" href="#pipeline" title="Permanent link"></a></h2>
+<p>A wi|las pipeline can be crated by following code snipet.</p>
+<pre><code>const { Pipeline } = require('@xblockchainlabs/willa');
+const pipeline = new Pipeline();
+</code></pre>
+
+<h2 id="source">Source<a class="headerlink" href="#source" title="Permanent link"></a></h2>
+<p>As disccussed above source represents the input to the pipeline i.e the source is the starting point of a pipeline , currently wi|la support 2 types of source <code>source</code> and <code>sourceCommitable</code>.</p>
+<p><code>source</code> can be either be a Node Stream or a Kafka Stream whereas <code>sourceCommitable</code> currently supports only kafka streams.</p>
+<p>Inorder to attach a source/sourceCommitable to the pipeline use follow code snipet.</p>
+<h3 id="node-stream">Node Stream<a class="headerlink" href="#node-stream" title="Permanent link"></a></h3>
+<pre><code>pipeline.source(Stream.consumer(options));
+</code></pre>
+
+<h3 id="kafka-stream">Kafka Stream<a class="headerlink" href="#kafka-stream" title="Permanent link"></a></h3>
+<pre><code>pipeline.source(Kafka.consumer(options));
+</code></pre>
+
+<h3 id="kafka-stream-commitable">Kafka Stream (commitable)<a class="headerlink" href="#kafka-stream-commitable" title="Permanent link"></a></h3>
+<pre><code>pipeline.sourceCommitable(Kafka.consumer(options));
+</code></pre>
+
+<h3 id="options">options<a class="headerlink" href="#options" title="Permanent link"></a></h3>
+<pre><code>{
+  name: String,
+  errorStrategy: String ['reset' , 'uncommit' , 'report' ]
+}
+</code></pre>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>name is mandatory to be passed , whereas default errorStrategy is set to `reset`</code></p>
+</div>
+<h2 id="flow">Flow<a class="headerlink" href="#flow" title="Permanent link"></a></h2>
+<p>Flow represents or perform logical opreation for the transformation of the incomming data. Thier is no limitation on the number of flows which can be chainned in a pipeline however flow cannot be either first of last element of a pipeline.</p>
+<p>A typical wi|la flow accpect 2 types of operation i.e lamda function and the Batch processes.</p>
+<h3 id="lamda-functions">Lamda functions<a class="headerlink" href="#lamda-functions" title="Permanent link"></a></h3>
+<pre><code>.flow((data, err, next) =&gt; {
+    // your custom logic
+    next(data, err);
+  })
+</code></pre>
+
+<h3 id="batch">Batch<a class="headerlink" href="#batch" title="Permanent link"></a></h3>
+<p>Batch is used in the cases where you want pipeline to wait for certain time / number of data inputs and then perform your logical operation.</p>
+<p>wi|la provides two types of batch .</p>
+<p>Reduce</p>
+<pre><code>.flow(Batch.reduce(options,reducerfunc,initailvalue)
+</code></pre>
+
+<p>Map</p>
+<pre><code>.flow(Batch.reduce(options,mapfunc)
+</code></pre>
+
+<p>options</p>
+<pre><code>{ 
+  number: Number, 
+  timeout: Number (time in ms),
+  groupBy: String || [String], 
+  attributes: String || [String]
+}
+</code></pre>
+
+<h2 id="sink">Sink<a class="headerlink" href="#sink" title="Permanent link"></a></h2>
+<p>As disccussed above sink represents the output/result to the pipeline i.e the sink is the end point of a pipeline.</p>
+<p><code>source</code> can be either be a Node Stream or a Kafka Stream.</p>
+<p>Inorder to attach a sink to the pipeline use follow code snipet.</p>
+<pre><code>.sink((data, err, next) =&gt; {
+    next(data, err);
+  });
+</code></pre>
+
+<p>Kafka</p>
+<pre><code>.sink(Kafka.producer(options));
+</code></pre>
+
+<h2 id="starting-the-app">Starting the App<a class="headerlink" href="#starting-the-app" title="Permanent link"></a></h2>
+<p>once we have created your pipeline you need to add it to the <code>app</code>. to do that use following code snipet.</p>
+<pre><code>const { App , Pipeline } = require('@xblockchainlabs/willa');
+const app = App(name ,options);
+app.add(pipeline);
+</code></pre>
+
+<p>options</p>
+<pre><code>{
+  kafka: kafkaconfig
+}
+</code></pre></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js" defer></script>
+        <script src="search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-03-26 05:53:58
+-->
