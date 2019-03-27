@@ -6,7 +6,7 @@
   "engines": {
     "node": ">= 10"
   },
-   "bin": {
+  "bin": {
     "willa": "./app.js"
   },
   "scripts": {
