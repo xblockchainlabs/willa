@@ -6,7 +6,9 @@ const { KafkaClient } = require('kafka-node'),
 class App {
   constructor(name, options) {
     this.pipelines = new Map();
-    this._setKafka(name, $(options)('kafka')());
+    if ($(options)('kafka')()){
+      this._setKafka(name, $(options)('kafka')());
+    }
   }
 
   _setKafka(name, kafkaOptions) {
@@ -59,14 +61,14 @@ class App {
       throw Error(`Pipeline name conflict at ${name}`);
     }
   }
-  
+
   _restart(name) {
     if (name !== undefined &&
       this.pipelines.has(name)) {
       const pipeline = this.pipelines.get(name);
       pipeline._shutdown();
       pipeline._build(this);
-    } 
+    }
   }
 }
 
