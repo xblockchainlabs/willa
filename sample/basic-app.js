@@ -1,7 +1,7 @@
 const { App, Pipelines, Stream, Batch } = require('../');
 const pipeline = Pipelines();
-const country = ['india','china'];
-const countries = ['japan','barmuda'];
+const country = ['india', 'china'];
+const countries = ['japan', 'barmuda'];
 
 // pipeline.source(Stream.consumer({ name: 'process' }))
 //   .flow((data, err, next) => {
@@ -24,49 +24,46 @@ const countries = ['japan','barmuda'];
 //   })
 //   .sink(Kafka.producer({ topic: 'log' }));
 
-  // pipeline.source(Stream.consumer({ name: 'process' }))
- // .flow((data, err, next) => {
+// pipeline.source(Stream.consumer({ name: 'process' }))
+// .flow((data, err, next) => {
 //   let num = parseInt(data.num);
 //   Object.assign(data, { num: num + 1 , from : countries[Math.floor(Math.random() * country.length)]});
-  //   Object.assign(data, { to : countries[Math.floor(Math.random() * country.length)]});
+//   Object.assign(data, { to : countries[Math.floor(Math.random() * country.length)]});
 //   // throw new Error('Kaka punjabi');
 //   next(data, err);
 // })
-  // .flow(Batch.reduce({ number: 5, timeout: 30000, groupBy: "from", attributes: ["num", "to"]}, 
-  //   (aggtr ,data) => {
-  //     let num = parseInt(data.num);
-  //     aggtr.number += num;
-  //     return aggtr;
-  // }, { number:0}))
-  // .sink((data, err, next) => {
+// .flow(Batch.reduce({ number: 5, timeout: 30000, groupBy: "from", attributes: ["num", "to"]}, 
+//   (aggtr ,data) => {
+//     let num = parseInt(data.num);
+//     aggtr.number += num;
+//     return aggtr;
+// }, { number:0}))
+// .sink((data, err, next) => {
 //   console.log("\n\n Reduced: \n", JSON.stringify(data, null, 3));
 //   next(data, err);
 // });
 
 
-  pipeline.source(Stream.consumer({ name: 'process-mapper' }))
-.flow((data, err, next) => {
+pipeline.source(Stream.consumer({ name: 'process-mapper' }))
+  .flow((data, err, next) => {
     let num = parseInt(data.num);
-    Object.assign(data, { num: num + 1 , from : country[Math.floor(Math.random() * country.length)]});
-  Object.assign(data, { to : country[Math.floor(Math.random() * country.length)]});
+    Object.assign(data, { num: num + 1, from: country[Math.floor(Math.random() * country.length)] });
+    Object.assign(data, { to: country[Math.floor(Math.random() * country.length)] });
     // throw new Error('Kaka punjabi');
     next(data, err);
+  })
+  .flow(Batch.map({ number: 5, timeout: 30000, groupBy: ["to", "from"], attributes: ["num", "from"], type: "leveldb" },
+    (data) => {
+      return { "origination": data.from, "volume": data.num };
     })
-    .flow(Batch.map({ number: 5, timeout: 30000, groupBy: ["to" , "from"], attributes: ["num", "from"] , type: "leveldb" }, 
-       (data) => {
-        return { "origination": data.from, "volume": data.num};
-      })
-    )
-    .sink(async (data, err, next) => {
-       console.log("\n\n Mapped: \n",JSON.stringify(data, null, 3));
-  // data.data.forEach(async element => {
-  //   for await (const i of element.argdata) {
-  //     console.log(i)
-  //   }
-  // });
-  for await (const [key,value] of data.data[0].argdata) {
-    console.log(key,value)
-  }
+  )
+  .sink(async (data, err, next) => {
+    console.log("\n\n Mapped: \n", JSON.stringify(data, null, 3));
+    data.data.forEach(async element => {
+      for await (const i of element.argdata) {
+        console.log(i)
+      }
+    });
     next(data, err);
   });
 
@@ -90,7 +87,7 @@ const app = App('test', {
 
 app.add(pipeline);
 
-  for (let i = 0; i < 5; i++) {
-    // app.writeStream('process', { num: i });
-    app.writeStream('process-mapper', { num: i });
+for (let i = 0; i < 5; i++) {
+  // app.writeStream('process', { num: i });
+  app.writeStream('process-mapper', { num: i });
 }
